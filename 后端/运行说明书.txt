@@ -1,0 +1,33 @@
+﻿运行该JAR包之前必须先导入两个.sql文件，
+其中stockData.sql只包含000001、000002、000004、000005、
+000006、000007、000008、000009、000010、000011、000012、
+000014、000016、000017、600004这几只股票的历史数据。
+
+
+本程序打包的数据库密码为：4230980MENG
+如需正常运行需将自己的数据库密码改为上面的。
+或导入源程序，在application.yml更改为自己的数据库密码
+
+
+运行方式1:
+
+运行jar流程：
+
+1.打开cmd
+2.cd securitiesTradingSystem.jar的目录路径里面
+
+3.java -jar securitiesTradingSystem.jar
+
+
+运行方式2:
+打开eclipse或idea，导入本项目，更改数据库密码运行程序即可。
+
+
+进入接口文档的地址http://localhost:8081/swagger-ui.html#/
+
+
+
+
+注：短信接口停止使用，如有个人需求，
+请去云片网注册账号，获取短信的APIKEY，并在utils目录下的JavaSmAPi.
+java中替换成自己的APIKEY。redis数据库如果未安装，验证码登录接口不可用

@@ -68,13 +68,14 @@
 <script>
 import axios from "axios";
 import { mapState, mapMutations } from "vuex";
+import Url from "@/service.config.js";
 export default {
   created() {
     this.stock_id = this.$route.params.id;
     this.localLogin(localStorage.phone);
   },
   computed: {
-    ...mapState(["phone"]), 
+    ...mapState(["phone"]),
     format() {
       var NowTime = new Date();
       var month = NowTime.getMonth() + 1;
@@ -130,10 +131,18 @@ export default {
     },
     //提交帖子
     submit() {
-      let url = `http://www.xml626.cn:8081/addForum?post_title=${this.addpostContent}&post_text=${this.addpostContent}&user_name=${this.phone}&stock_id=${this.stock_id}`;
-      axios
-        .post(url)
+      axios({
+        url: Url.postMessage,
+        method: "post",
+        params: {
+          post_title: this.addpostContent,
+          post_text: this.addpostContent,
+          user_name: this.phone,
+          stock_id: this.stock_id
+        }
+      })
         .then(res => {
+          console.log(res);
           if (res.status == 200) {
             this.loading = true;
             this.Submit = true;
@@ -158,7 +167,7 @@ export default {
           console.log(err);
         });
     },
-   
+
     //发帖子
     addPost() {
       if (JSON.stringify(this.userInfo) === "{}") {

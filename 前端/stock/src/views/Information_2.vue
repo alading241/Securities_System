@@ -85,6 +85,7 @@
   </div>
 </template>
 <script>
+import Url from "@/service.config.js";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { mapState } from "vuex";
@@ -167,29 +168,15 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // alert('success!');
-          // console.log(this.phone);
           axios({
-            url:
-              "http://www.xml626.cn:8081/openUser?phone_number=" +
-              this.ruleForm.phone_number +
-              "&userName=" +
-              this.ruleForm.name +
-              "&accountType=" +
-              this.ruleForm.account_type +
-              "&accountNum=" +
-              this.ruleForm.account_num +
-              "&account_password=" +
-              this.ruleForm.account_pass +
-              "&userSex=" +
-              this.ruleForm.sex,
+            url: Url.openUser,
             method: "post",
-            data: {
-              phone: this.ruleForm.phone_number,
-              user_name: this.ruleForm.name,
-              user_sex: this.ruleForm.sex,
-              account_type: this.ruleForm.account_type,
-              account_num: this.ruleForm.account_num,
+            params: {
+              phone_number: this.ruleForm.phone_number,
+              userName: this.ruleForm.name,
+              userSex: this.ruleForm.sex,
+              accountType: this.ruleForm.account_type,
+              accountNum: this.ruleForm.account_num,
               account_password: this.ruleForm.account_pass
             }
           })

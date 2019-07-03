@@ -9,9 +9,6 @@
 
 <script>
 export default {
-  components: {
-    // Top,News,HotText
-  },
   data() {
     return {
       show: true
@@ -32,7 +29,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
 #app {
   overflow: hidden;

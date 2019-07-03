@@ -84,14 +84,18 @@
 <script>
 import { Queue, Patient } from "./../assets/js/priority";
 import { mapState } from "vuex";
-import Axios from "axios";
+import axios from "axios";
+import Url from "@/service.config.js";
 export default {
   props: ["id", "name"],
   created() {
-    let allUrl = `http://www.xml626.cn:8081/getForumInfo?stockId=${this.id}`;
-    let HotUrl = `http://www.xml626.cn:8081/getHotForumInfo?stockId=${this.id}`;
-    let myOptionsUrl = `http://www.xml626.cn:8081/getOwnForumInfo?userName=${this.phone}`;
-    Axios.get(allUrl)
+    axios({
+      url: Url.getForumInfo,
+      method: "get",
+      params: {
+        stockId: this.id
+      }
+    })
       .then(res => {
         console.log(res.data);
         var ed = new Queue();
@@ -115,7 +119,14 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    Axios.get(HotUrl)
+
+    axios({
+      url: Url.getHotForumInfo,
+      method: "get",
+      params: {
+        stockId: this.id
+      }
+    })
       .then(res => {
         this.hotList = res.data;
         //   console.log(this.hotList);
@@ -123,7 +134,13 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    Axios.get(myOptionsUrl)
+    axios({
+      url: Url.getOwnForumInfo,
+      method: "get",
+      params: {
+        userName: this.phone
+      }
+    })
       .then(res => {
         this.myposts = res.data;
         console.log(this.myposts);

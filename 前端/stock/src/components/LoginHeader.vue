@@ -14,9 +14,6 @@
 <script>
 export default {
   name: "LoginHeader",
-  data() {
-    return {};
-  }
 };
 </script>
 <style scoped lang="scss">

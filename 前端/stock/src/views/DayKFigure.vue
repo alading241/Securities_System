@@ -8,6 +8,7 @@
 <script>
 import echarts from "echarts";
 import axios from "axios";
+import Url from "@/service.config.js";
 require("echarts/extension/bmap/bmap");
 require("./../../node_modules/echarts/lib/component/legend");
 export default {
@@ -161,9 +162,15 @@ export default {
     }
   },
   methods: {
+    //请求日K图数据
     getStockName() {
-      axios
-        .get(`http://www.xml626.cn:8081/getStockData?stockCode=${this.stockID}`)
+      axios({
+        url: Url.getStockData,
+        method: "get",
+        params: {
+          stockCode: this.stockID
+        }
+      })
         .then(response => {
           console.log("请求数据成功");
           console.log(response.data);
@@ -195,10 +202,13 @@ export default {
       return b;
     },
     getStockData() {
-      axios
-        .get(`http://www.xml626.cn:8081/getStockData?stockCode=${this.stockID}`)
-
-        //then获取成功；response成功后的返回值（对象）
+      axios({
+        url: Url.getStockData,
+        method: "get",
+        params: {
+          stockCode: this.stockID
+        }
+      })
         .then(response => {
           this.stockData = response.data;
         })

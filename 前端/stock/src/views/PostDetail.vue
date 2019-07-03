@@ -83,9 +83,10 @@
   </div>
 </template>
 <script>
-import Axios from "axios";
+import axios from "axios";
 import PostHeader from "./../components/PostHeader";
 import { mapState } from "vuex";
+import Url from "@/service.config.js";
 export default {
   components: {
     PostHeader
@@ -169,11 +170,17 @@ export default {
     },
     //提交评论
     submitComments() {
-      let addReplyUrl = `http://www.xml626.cn:8081/addReply?post_id=${this.post_id}&user_name=${this.phone}&reply_Text=${this.textarea1}&stock_id=${this.stock_id}`;
-      Axios.post(addReplyUrl)
+      axios({
+        url: Url.addReply,
+        method: "post",
+        params: {
+          post_id: this.post_id,
+          user_name: this.phone,
+          reply_Text: this.textarea1,
+          stock_id: this.stock_id
+        }
+      })
         .then(res => {
-          // console.log(addReplyUrl);
-          //  console.log(res);
           if (res.status == 200) {
             this.btnLoading = true;
             this.submitBtn = true;
@@ -225,8 +232,13 @@ export default {
     },
     //删除帖子
     deletePost() {
-      let delUrl = `http://www.xml626.cn:8081/delForum?post_id=${this.post_id}`;
-      Axios.post(delUrl)
+      axios({
+        url: Url.delForum,
+        method: "post",
+        params: {
+          post_id: this.post_id
+        }
+      })
         .then(res => {
           console.log(delUrl);
           console.log(res);
@@ -241,9 +253,13 @@ export default {
     },
     //删除回复
     deleteComment(replyId) {
-      //  console.log(replyId);
-      let delRaplyUrl = `http://www.xml626.cn:8081/delReply?reply_id=${replyId}`;
-      Axios.post(delRaplyUrl)
+      axios({
+        url: Url.delReply,
+        method: "post",
+        params: {
+          reply_id: replyId
+        }
+      })
         .then(res => {
           if (res.status == 200) {
             alert("删除成功！");
@@ -260,21 +276,30 @@ export default {
     this.stock_id = this.$route.query.stock_id;
     this.post_id = this.$route.params.id;
     console.log(this.post_id);
-    let PostDetailUrl = `http://www.xml626.cn:8081/getForumByPostId?post_id=${this.post_id}`;
-    Axios.get(PostDetailUrl)
+    axios({
+      url: Url.getForumByPostId,
+      method: "get",
+      params: {
+        post_id: this.post_id
+      }
+    })
       .then(res => {
         this.postData = res.data;
         if (this.postData.user_name == this.phone) {
           this.delBtn = true;
         }
-        // console.log(this.postData);
       })
       .catch(err => {
         console.log(err);
       });
     //获取帖子评论
-    let getCommentUrl = `http://www.xml626.cn:8081/selectReply?post_id=${this.post_id}`;
-    Axios.get(getCommentUrl)
+    axios({
+      url: Url.selectReply,
+      method: "get",
+      params: {
+        post_id: this.post_id
+      }
+    })
       .then(res => {
         let resList = res.data.slice(0, res.data.length - 1);
         //给每个数组-->对象元素添加一个布尔属性
@@ -288,7 +313,6 @@ export default {
             val.delBtn = true;
           }
         });
-        //    console.log(this.commentList);
       })
       .catch(err => {
         console.log(err);

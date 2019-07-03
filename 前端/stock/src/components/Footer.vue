@@ -48,10 +48,9 @@
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
 };
 </script>
-
 <style scoped lang="scss">
 .footer {
   height: 10rem;

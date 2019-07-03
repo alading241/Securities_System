@@ -41,6 +41,7 @@
 import Footer from "../components/Footer";
 import Top from "../components/Top";
 import axios from "axios";
+import Url from "@/service.config.js";
 export default {
   name: "Count",
   data() {
@@ -67,12 +68,11 @@ export default {
         alert("请输入正确的手机号码！");
         this.ruleForm.phoneNum = "";
       } else {
+        //开户
         axios({
-          url:
-            "http://www.xml626.cn:8081/sendMessage?phone=" +
-            this.ruleForm.phoneNum,
+          url: Url.sendMessage,
           method: "post",
-          data: {
+          params: {
             phoneNum: this.ruleForm.phoneNum
           }
         })
@@ -90,6 +90,7 @@ export default {
           });
       }
     },
+    //开户提交信息
     submitForm(formName) {
       console.log(this.ruleForm.phoneNum + " " + this.ruleForm.checkNum);
       var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(15[0-3]{1})|(15[4-9]{1})|(18[0-9]{1})|(199))+\d{8})$/;
@@ -103,8 +104,12 @@ export default {
             this.ruleForm.phoneNum = "";
           } else {
             axios({
-              url: `http://www.xml626.cn:8081/loginByMessagePost?phone=${this.ruleForm.phoneNum}&code=${this.ruleForm.checkNum}`, //url.控制器下的方法
-              method: "post"
+              url: Url.loginByMessagePost,
+              method: "post",
+              params: {
+                phone: this.ruleForm.phoneNum,
+                code: this.ruleForm.checkNum
+              }
             })
               .then(res => {
                 console.log(res);

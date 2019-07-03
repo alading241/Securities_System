@@ -76,6 +76,7 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { mapActions } from "vuex";
 import { setTimeout } from "timers";
+import Url from "@/service.config.js";
 export default {
   name: "Login",
   //获取上一个URL
@@ -133,21 +134,16 @@ export default {
             this.passwordDisabled = "disabled";
             setTimeout(() => {
               axios({
-                url:
-                  "http://www.xml626.cn:8081/login?phone=" +
-                  this.ruleForm.phone_number +
-                  "&password=" +
-                  this.ruleForm.password,
+                url: Url.login,
                 method: "post",
-                data: {
-                  phone_number: this.ruleForm.phone_number,
+                params: {
+                  phone: this.ruleForm.phone_number,
                   password: this.ruleForm.password
                 }
               })
                 .then(res => {
                   if (res.data.success == true) {
                     this.loginAction(res.data.phone);
-                    //  console.log(this.oldPath);
                     if (
                       this.oldPath == "/login" ||
                       this.oldPath == "/reg" ||

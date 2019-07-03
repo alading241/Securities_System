@@ -19,7 +19,7 @@
             </div>
             <div class="myStock-data">
               {{item.closing_price_n}}
-              <br>
+              <br />
               {{item.chang_extent}}%
             </div>
           </li>
@@ -29,14 +29,15 @@
   </div>
 </template>
 <script>
-
 import axios from "axios";
+import Url from "@/service.config.js";
 export default {
   name: "Market",
   created() {
-    let url1 = "http://www.xml626.cn:8081/getInitialization";
-    axios
-      .get(url1)
+    axios({
+      url: Url.getInitialization,
+      method: "get"
+    })
       .then(res => {
         this.stock = res.data.reverse();
         console.log(this.stock);

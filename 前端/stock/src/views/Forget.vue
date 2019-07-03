@@ -4,7 +4,7 @@
     <div class="forget-header">
       <div class="forget-header-logo">
         <router-link to="/">
-          <img src="../assets/img/logo.gif" alt>
+          <img src="../assets/img/logo.gif" alt />
         </router-link>
       </div>
       <div class="forget-header-title">
@@ -98,11 +98,10 @@ export default {
             alert("请输入有效的手机号码！");
             this.ruleForm.phone = "";
           } else {
-           
             axios({
               url: "", //url.控制器下的方法
               method: "post",
-              data: {
+              params: {
                 phone: this.ruleForm.phone,
                 check: this.ruleForm.check,
                 newPass: this.ruleForm.newPass

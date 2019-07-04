@@ -76,7 +76,7 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { mapActions } from "vuex";
 import { setTimeout } from "timers";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   name: "Login",
   //获取上一个URL
@@ -134,7 +134,7 @@ export default {
             this.passwordDisabled = "disabled";
             setTimeout(() => {
               axios({
-                url: Url.login,
+                url: URL.login,
                 method: "post",
                 params: {
                   phone: this.ruleForm.phone_number,

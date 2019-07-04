@@ -1,94 +1,65 @@
-<!--股票详情header-->
+<!--头部-->
 <template>
-  <div class="Postheader">
-    <div class="Postheader-content">
-      <ul>
+  <div class="top">
+    <div class="top-context">
+      <ul class="top-context-left">
+        <li>欢迎来到证券交易！</li>
         <li>
-          <router-link to="/">首页</router-link>
+          <router-link to="/login">{{phone}}</router-link>
         </li>
         <li>
-          <a href="#">基金吧</a>
+          <router-link to="/reg">免费注册</router-link>
         </li>
+      </ul>
+      <div class="top-context-center"></div>
+      <ul class="top-context-right">
         <li>
-          <a href="#">访谈</a>
-        </li>
-        <li>
-          <a href="#">话题</a>
-        </li>
-        <li>
-          <a href="#">问董秘</a>
-        </li>
-        <li>
-          <a href="#">悬赏问答</a>
+          <router-link to="/">网站首页</router-link>
         </li>
         <li>
           <a href="#" @click="addPost()">发帖子</a>
-        </li>
-        <li class="login">
-          <router-link to="/login">{{phone}}</router-link>
-        </li>
-        <li class="register">
-          <router-link to="/reg">注册</router-link>
         </li>
         <li @click="exit" class="top-context-right-menu">
           <span class="menu">退出</span>
         </li>
       </ul>
     </div>
-    <div id="posted" v-show="isTrue">
+    <div class="posted" v-show="isTrue">
       <div class="dialog-box">
-        <div class="dialog-title">
-          <div class="dialog-title-header">
-            <span class="title">发表帖子</span>
-            <span class="post_close" @click="close()">×</span>
+        <div class="dialog-box-title">
+          <div class="dialog-box-title-header">
+            <span>发表帖子</span>
+            <span class="dialog-box-title-header-close" @click="close()">×</span>
           </div>
         </div>
-        <form>
-          <div class="dialog-content">
-            <h5>内容</h5>
-            <textarea ref="postText" required v-model="addpostContent"></textarea>
-          </div>
-          <div v-show="enterContent" class="enterContent">请输入内容！</div>
-          <div v-show="sensitive" class="sensitive">输入内容包含敏感词!</div>
-          <div class="hint" v-if="isPosted">发表成功！</div>
-          <div class="content-submit">
-            <el-button
-              :disabled="disabledBtn"
-              type="primary"
-              @click.prevent="submit()"
-              :loading="loading"
-              class="submit"
-            >{{Submit?'提交中':'确定'}}</el-button>
-          </div>
-        </form>
+        <div class="dialog-box-content">
+          <h5>内容</h5>
+          <textarea ref="postText" required v-model="addpostContent"></textarea>
+        </div>
+        <div v-show="enterContent" class="enterContent">请输入内容！</div>
+        <div v-show="sensitive" class="sensitive">输入内容包含敏感词!</div>
+        <div class="hint" v-if="isPosted">发表成功！</div>
+        <div>
+          <el-button
+            :disabled="disabledBtn"
+            type="primary"
+            @click.prevent="submit()"
+            :loading="loading"
+          >{{Submit?'提交中':'确定'}}</el-button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
 import { mapState, mapMutations } from "vuex";
-import Url from "@/service.config.js";
+import axios from "axios";
+import URL from "@/service.config.js";
 export default {
-  created() {
-    this.stock_id = this.$route.params.id;
-    this.localLogin(localStorage.phone);
-  },
-  computed: {
-    ...mapState(["phone"]),
-    format() {
-      var NowTime = new Date();
-      var month = NowTime.getMonth() + 1;
-      var day = NowTime.getDate();
-      var hour = NowTime.getHours();
-      var minuties = NowTime.getMinutes();
-      var seconds = NowTime.getSeconds();
-      return month + "-" + day + "  " + hour + ":" + minuties + ":" + seconds;
-    }
-  },
+  inject: ["reload"],
   data() {
     return {
-      stock_id: "",
+      stock_id: "", //股票代码
       disabledBtn: "disabled", //提交按钮是否可用
       Submit: false, //提交帖子的按钮的内容
       isTrue: false, //显示对话框
@@ -101,18 +72,21 @@ export default {
     };
   },
   watch: {
+    //监测文本框内容
     addpostContent: function() {
-      var words = this.sensitiveWords(this.addpostContent);
+      var words = this.sensitiveWords(this.addpostContent); //敏感词监测
       var reg = "^[ ]+$";
       var re = new RegExp(reg);
       if (
+        //文本框必须输入内容
         this.addpostContent == "" ||
         this.addpostContent.length == 0 ||
         re.test(this.addpostContent) == true
       ) {
         this.enterContent = true;
         this.disabledBtn = "disabled";
-      } else if (words != true) {
+      } else if (!words) {
+        //没有敏感词
         this.sensitive = true;
         this.disabledBtn = "disabled";
         this.enterContent = false;
@@ -123,6 +97,13 @@ export default {
       }
     }
   },
+  created() {
+    this.stock_id = this.$route.params.id;
+    this.localLogin(localStorage.phone);
+  },
+  computed: {
+    ...mapState(["phone"])
+  },
   methods: {
     ...mapMutations(["exitLogin"]),
     ...mapMutations(["localLogin"]),
@@ -132,7 +113,7 @@ export default {
     //提交帖子
     submit() {
       axios({
-        url: Url.postMessage,
+        url: URL.postMessage,
         method: "post",
         params: {
           post_title: this.addpostContent,
@@ -167,7 +148,6 @@ export default {
           console.log(err);
         });
     },
-
     //发帖子
     addPost() {
       if (JSON.stringify(this.userInfo) === "{}") {
@@ -211,40 +191,85 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-a {
-  text-decoration: none;
-  font-size: 13px;
-  color: #474747;
-  display: inline-block;
-}
-.Postheader {
-  width: 100%;
-  height: 30px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 4px #e6e6e6;
-  background: #fff;
+<style scoped lang="scss">
+.top {
+  z-index: 999;
   position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1999;
   width: 100%;
-  &-content {
-    width: 60%;
+  height: 3rem;
+  box-shadow: 0 4px 4px #e6e6e6;
+  background-color: #ffffff;
+  &-context {
+    width: 1000px;
+    height: 100%;
     margin: 0 auto;
+    display: flex;
+    &-left {
+      width: 28%;
+      height: 100%;
+      flex: 1;
+      li {
+        float: left;
+        padding: 0.5rem;
+        a:hover {
+          color: orange;
+        }
+      }
+    }
+    &-center {
+      height: 100%;
+      flex: 1;
+    }
+    &-right {
+      width: 30%;
+      height: 100%;
+      flex: 0.8;
+      li {
+        float: left;
+        padding: 0.5rem;
+        img {
+          width: 10px;
+          height: 10px;
+        }
+        a:hover {
+          color: orange;
+        }
+      }
+      &-menu {
+        a:hover {
+          color: orange;
+        }
+        &-menu:hover {
+          ul {
+            display: block;
+          }
+          img {
+            transform: rotate(90deg);
+            transition: transform 0.2s;
+          }
+        }
+        &-list {
+          border: 1px solid #ccc;
+          background: #ffffff;
+          border-top: 0;
+          position: absolute;
+          top: 36px;
+          right: 255px;
+          width: 100px;
+          display: none;
+          li {
+            padding: 0 14px;
+          }
+        }
+      }
+    }
   }
-  li {
-    display: inline-block;
-    padding: 0 12px;
 
-    display: inline;
-    zoom: 1;
-    position: relative;
-    line-height: 30px;
+  a {
+    color: #6c6c6c;
   }
 }
-
-#posted {
+.posted {
   z-index: 99999;
   clear: both;
   position: fixed;
@@ -263,44 +288,45 @@ a {
   top: 50%;
   background-color: #fff;
   transform: translate(-50%, -50%);
-}
-.dialog-title {
-  height: 40px;
-  background-color: #ff8040;
-  color: #000000;
-  line-height: 40px;
-  font-weight: bold;
-  padding: 0 10px;
-  font-size: 18px;
-}
-.dialog-title-header {
-  float: left;
-  cursor: pointer;
-  position: relative;
-  width: 100%;
-}
-.el-button {
-  float: right;
-}
 
-.dialog-content {
-  width: 450px;
-  margin: 0 auto;
-  height: 180px;
-  textarea {
+  &-title {
+    height: 40px;
+    background-color: #ff8040;
+    color: #000000;
+    line-height: 40px;
+    font-weight: bold;
+    padding: 0 10px;
+    font-size: 18px;
+    &-header {
+      float: left;
+      cursor: pointer;
+      position: relative;
+      width: 100%;
+      &-close {
+        position: absolute;
+        right: 10px;
+        font-size: 30px;
+        cursor: pointer;
+        color: #000000;
+        line-height: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+  &-content {
     width: 450px;
-    height: 150px;
+    margin: 0 auto;
+    height: 180px;
+    textarea {
+      width: 450px;
+      height: 150px;
+    }
   }
 }
-span.post_close {
-  position: absolute;
-  right: 10px;
-  font-size: 30px;
-  cursor: pointer;
-  color: #000000;
-  line-height: 40px;
-  font-weight: bold;
-  text-align: center;
+
+.el-button {
+  float: right;
 }
 .enterContent,
 .hint,

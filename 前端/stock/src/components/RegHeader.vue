@@ -11,16 +11,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "RegHeader",
-  data() {
-    return {};
-  }
-};
-</script>
-
 <style scoped lang="scss">
 .regHeader {
   width: 1000px;

@@ -85,7 +85,7 @@
   </div>
 </template>
 <script>
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { mapState } from "vuex";
@@ -169,7 +169,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           axios({
-            url: Url.openUser,
+            url: URL.openUser,
             method: "post",
             params: {
               phone_number: this.ruleForm.phone_number,

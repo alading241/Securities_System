@@ -30,12 +30,12 @@
 </template>
 <script>
 import axios from "axios";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   name: "Market",
   created() {
     axios({
-      url: Url.getInitialization,
+      url: URL.getInitialization,
       method: "get"
     })
       .then(res => {

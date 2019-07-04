@@ -71,9 +71,13 @@
 import RegHeader from "../components/RegHeader";
 import Footer from "../components/Footer";
 import axios from "axios";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   name: "Reg",
+  components: {
+    RegHeader,
+    Footer
+  },
 
   data() {
     var validatePass = (rule, value, callback) => {
@@ -130,7 +134,7 @@ export default {
             this.ruleForm.phoneNumber = "";
           } else {
             axios({
-              url: Url.createUser,
+              url: URL.createUser,
               method: "post",
               params: {
                 phone_number: this.ruleForm.phoneNumber,
@@ -162,10 +166,6 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  },
-  components: {
-    RegHeader,
-    Footer
   }
 };
 </script>

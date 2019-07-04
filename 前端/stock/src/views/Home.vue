@@ -42,7 +42,7 @@ import Market from "../views/Market";
 import Event from "../views/Event";
 import Stock from "../views/Stock";
 import Footer from "../components/Footer";
-import Top from "../components/Top";
+import Header from "../components/Header";
 import lb1 from "../assets/img/1.jpg";
 import lb2 from "../assets/img/2.jpg";
 import lb3 from "../assets/img/3.jpg";
@@ -56,7 +56,7 @@ export default {
     Event,
     Stock,
     Footer,
-    Top
+    Header,
   },
   data() {
     return {

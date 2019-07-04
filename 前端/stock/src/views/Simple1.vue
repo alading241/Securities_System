@@ -15,7 +15,7 @@
 import { setTimeout, setInterval } from "timers";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   computed: {
     ...mapState(["phone"])
@@ -23,7 +23,7 @@ export default {
   created() {
     setInterval(() => {
       axios({
-        url: Url.selectOptionalStock,
+        url: URL.selectOptionalStock,
         method: "get",
         params: {
           phone: this.phone

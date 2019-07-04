@@ -11,11 +11,6 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: "LoginHeader",
-};
-</script>
 <style scoped lang="scss">
 .loginHeader {
   width: 1000px;

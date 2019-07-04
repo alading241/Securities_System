@@ -79,7 +79,7 @@
 <script type="text/javascript">
 import axios from "axios";
 import { mapState } from "vuex";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   computed: {
     ...mapState(["phone"])
@@ -97,7 +97,7 @@ export default {
     this.stock_id = this.$route.params.id;
     //请求股票类型
     axios({
-      url: Url.getStockInfoByStockCode,
+      url: URL.getStockInfoByStockCode,
       method: "get",
       params: {
         stockCode: this.stock_id

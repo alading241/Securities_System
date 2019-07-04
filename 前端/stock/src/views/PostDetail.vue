@@ -1,7 +1,7 @@
 <!--帖子详情-->
 <template>
   <div>
-    <post-header></post-header>
+    <header></header>
     <div class="mainbody">
       <div class="stockheader">
         <div class="zwconttphoto">
@@ -84,12 +84,12 @@
 </template>
 <script>
 import axios from "axios";
-import PostHeader from "./../components/PostHeader";
+import Header from "./../components/Header";
 import { mapState } from "vuex";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   components: {
-    PostHeader
+    Header
   },
   data() {
     return {
@@ -141,15 +141,6 @@ export default {
     //影响力
     gradeFilter() {
       return (Math.random() * 5).toFixed(1);
-    },
-    format() {
-      var NowTime = new Date();
-      var month = NowTime.getMonth() + 1;
-      var day = NowTime.getDate();
-      var hour = NowTime.getHours();
-      var minuties = NowTime.getMinutes();
-      var seconds = NowTime.getSeconds();
-      return month + "-" + day + "  " + hour + ":" + minuties + ":" + seconds;
     }
   },
   methods: {
@@ -171,7 +162,7 @@ export default {
     //提交评论
     submitComments() {
       axios({
-        url: Url.addReply,
+        url: URL.addReply,
         method: "post",
         params: {
           post_id: this.post_id,
@@ -233,7 +224,7 @@ export default {
     //删除帖子
     deletePost() {
       axios({
-        url: Url.delForum,
+        url: URL.delForum,
         method: "post",
         params: {
           post_id: this.post_id
@@ -254,7 +245,7 @@ export default {
     //删除回复
     deleteComment(replyId) {
       axios({
-        url: Url.delReply,
+        url: URL.delReply,
         method: "post",
         params: {
           reply_id: replyId
@@ -277,7 +268,7 @@ export default {
     this.post_id = this.$route.params.id;
     console.log(this.post_id);
     axios({
-      url: Url.getForumByPostId,
+      url: URL.getForumByPostId,
       method: "get",
       params: {
         post_id: this.post_id
@@ -294,7 +285,7 @@ export default {
       });
     //获取帖子评论
     axios({
-      url: Url.selectReply,
+      url: URL.selectReply,
       method: "get",
       params: {
         post_id: this.post_id

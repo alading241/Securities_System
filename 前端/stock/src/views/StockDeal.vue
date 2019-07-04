@@ -1,6 +1,6 @@
 <template>
   <div>
-    <post-header></post-header>
+    <header></header>
     <!--buyData:购买数据传送-->
     <div class="stockDeal">
       <el-tabs v-model="activeName" style="text-align: center" type="border-card">
@@ -108,13 +108,13 @@
 <script>
 import axios from "axios";
 import TradeInfo from "./TradeInfo";
-import PostHeader from "../components/PostHeader";
+import Header from "../components/Header";
 import { mapState, mapMutations } from "vuex";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   inject: ["reload"],
   components: {
-    PostHeader,
+    Header,
     TradeInfo
   },
   computed: {
@@ -124,7 +124,7 @@ export default {
     this.localLogin(localStorage.phone);
     //获取账户余额
     axios({
-      url: Url.getAccountBalance,
+      url: URL.getAccountBalance,
       method: "get",
       params: {
         phone: this.phone
@@ -142,7 +142,7 @@ export default {
     console.log(this.stock_id);
     //请求股票类型
     axios({
-      url: Url.getStockInfoByStockCode,
+      url: URL.getStockInfoByStockCode,
       method: "get",
       stockCode: this.stock_id
     })
@@ -191,7 +191,7 @@ export default {
         this.balance = this.balance - totalPrice;
         //挂单
         axios({
-          url: Url.restingOrder,
+          url: URL.restingOrder,
           method: "get",
           params: {
             userId: this.userId,

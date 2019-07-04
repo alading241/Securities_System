@@ -1,5 +1,4 @@
 <!--日K图-->
-
 <template>
   <div id="main">
     <div id="myChart" ref="myChart"></div>
@@ -8,11 +7,10 @@
 <script>
 import echarts from "echarts";
 import axios from "axios";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 require("echarts/extension/bmap/bmap");
 require("./../../node_modules/echarts/lib/component/legend");
 export default {
-  name: "echarts",
   data() {
     return {
       stockName: "",
@@ -165,21 +163,20 @@ export default {
     //请求日K图数据
     getStockName() {
       axios({
-        url: Url.getStockData,
+        url: URL.getStockData,
         method: "get",
         params: {
           stockCode: this.stockID
         }
       })
-        .then(response => {
+        .then(res => {
           console.log("请求数据成功");
-          console.log(response.data);
-          this.stockData = response.data;
+          console.log(res.data);
+          this.stockData = res.data;
         })
-        .catch(error => {
-          console.log(error);
-
-          alert("网络错误，不能访问");
+        .catch(err => {
+          console.log(err);
+          alert("服务器错误,不能访问!");
         });
     },
     getArrary(str) {
@@ -203,7 +200,7 @@ export default {
     },
     getStockData() {
       axios({
-        url: Url.getStockData,
+        url: URL.getStockData,
         method: "get",
         params: {
           stockCode: this.stockID

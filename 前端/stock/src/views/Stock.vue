@@ -35,7 +35,7 @@
 </template>
 <script>
 import axios from "axios";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 import { mapState } from "vuex";
 export default {
   inject: ["reload"],
@@ -94,7 +94,7 @@ export default {
             this.stock[i].isClick = !this.stock[i].isClick;
             axios({
               //添加到自选股
-              url: Url.addOptionalStock,
+              url: URL.addOptionalStock,
               method: "post",
               params: {
                 phone: this.phone, //电话号码
@@ -115,7 +115,7 @@ export default {
           } else if (this.stock[i].isClick && this.stock[i].stock_id == id) {
             this.stock[i].isClick = !this.stock[i].isClick;
             axios({
-              url: Url.delOptionalStock,
+              url: URL.delOptionalStock,
               method: "post",
               params: {
                 phone: this.phone, //电话号码

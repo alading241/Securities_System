@@ -9,7 +9,7 @@ import Information from './views/Information.vue';
 // eslint-disable-next-line camelcase
 import Information_2 from './views/Information_2.vue';
 // eslint-disable-next-line import/no-unresolved
-import Top from '@/components/Top.vue';
+import Header from '@/components/Header.vue';
 import PostDetail from './views/PostDetail.vue';
 import StockDeal from './views/StockDeal.vue';
 import Forget from './views/Forget.vue';
@@ -25,7 +25,7 @@ export default new Router({
       components: {
         // eslint-disable-next-line indent
         default: Home,
-        top: Top,
+        top: Header,
       },
     },
     {
@@ -33,7 +33,7 @@ export default new Router({
       name: 'login',
       components: {
         default: Login,
-        top: Top,
+        top: Header,
       },
     },
     {
@@ -41,13 +41,16 @@ export default new Router({
       name: 'reg',
       components: {
         default: Reg,
-        top: Top,
+        top: Header,
       },
     },
     {
       path: '/stockdetails/:id',
       name: 'stockdetails',
-      component: StockDetails,
+      components: {
+        default: StockDetails,
+        top: Header,
+      },
     },
     {
       path: '/forget',
@@ -59,7 +62,7 @@ export default new Router({
       name: 'count',
       components: {
         default: Count,
-        top: Top,
+        top: Header,
       },
     },
     {
@@ -67,7 +70,7 @@ export default new Router({
       name: 'information',
       components: {
         default: Information,
-        top: Top,
+        top: Header,
       },
     },
     {
@@ -75,7 +78,7 @@ export default new Router({
       name: 'information-2',
       components: {
         default: Information_2,
-        top: Top,
+        top: Header,
       },
     },
     {
@@ -86,7 +89,10 @@ export default new Router({
     {
       path: '/stockdeal/:id',
       name: 'stockdeal',
-      component: StockDeal,
+      components: {
+        default: StockDeal,
+        top: Header,
+      },
     },
     {
       path: '*',

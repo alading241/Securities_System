@@ -88,7 +88,7 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   data() {
     return {
@@ -104,7 +104,7 @@ export default {
     this.stock_id = this.$route.params.id;
     //查询股票名称
     axios({
-      url: Url.getStockName,
+      url: URL.getStockName,
       method: "get",
       params: {
         stockCode: this.stock_id
@@ -118,7 +118,7 @@ export default {
 
     //查询挂单
     axios({
-      url: Url.queryResting,
+      url: URL.queryResting,
       method: "get",
       params: {
         phone: this.phone
@@ -136,7 +136,7 @@ export default {
       });
     //查询当日委托
     axios({
-      url: Url.queryEntrust,
+      url: URL.queryEntrust,
       method: "get",
       params: {
         phone: this.phone
@@ -155,7 +155,7 @@ export default {
       });
     //当日成交
     axios({
-      url: Url.queryPurchase,
+      url: URL.queryPurchase,
       method: "get",
       params: {
         phone: this.phone
@@ -169,7 +169,7 @@ export default {
       });
     //查询持仓信息
     axios({
-      url: Url.queryHoldShares,
+      url: URL.queryHoldShares,
       method: "get",
       params: {
         phone: this.phone
@@ -190,7 +190,7 @@ export default {
     //撤单
     revoke(entrust_id) {
       axios({
-        url: Url.cancellation,
+        url: URL.cancellation,
         method: "get",
         params: {
           entrustId: entrust_id

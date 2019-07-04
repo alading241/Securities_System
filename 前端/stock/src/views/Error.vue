@@ -1,7 +1,7 @@
-<!--容错页面-->
+<!--出错页面-->
 <template>
   <div>
-    <img src="./../assets/img/timg.jpg" alt>
+    <img src="./../assets/img/timg.jpg" alt />
   </div>
 </template>
 <script>

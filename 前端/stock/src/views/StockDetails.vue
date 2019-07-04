@@ -1,6 +1,6 @@
 <template>
   <div>
-    <post-header></post-header>
+    <header></header>
     <!--头部-->
     <div class="stockInfo">
       <div>
@@ -73,12 +73,12 @@ import DayKFigure from "./DayKFigure";
 import { mapState } from "vuex";
 import Qutoe from "./../views/Qutoe";
 import PostInfo from "./../views/PostInfo";
-import PostHeader from "./../components/PostHeader";
+import Header from "./../components/Header";
 import axios from "axios";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   components: {
-    PostHeader,
+    Header,
     PostInfo,
     Qutoe,
     DayKFigure,
@@ -99,7 +99,7 @@ export default {
     this.stock_id = this.$route.params.id;
     //请求股票类型
     axios({
-      url: Url.getStockInfoByStockCode,
+      url: URL.getStockInfoByStockCode,
       method: "get",
       params: {
         stockCode: this.stock_id

@@ -4,7 +4,7 @@
     <div class="count-header">
       <div class="count-header-logo">
         <router-link to="/">
-          <img src="../assets/img/logo.gif" alt />
+          <img src="../assets/img/logo.gif" alt="logo" />
         </router-link>
       </div>
       <div class="count-header-title">
@@ -34,16 +34,17 @@
       </div>
       <div class="count-contain-right"></div>
     </div>
-    <Footer></Footer>
+    <footer></footer>
   </div>
 </template>
 <script>
-import Footer from "../components/Footer";
-import Top from "../components/Top";
 import axios from "axios";
-import Url from "@/service.config.js";
+import Footer from "../components/Footer";
+import URL from "@/service.config.js";
 export default {
-  name: "Count",
+  components: {
+    Footer
+  },
   data() {
     return {
       text: "",
@@ -70,7 +71,7 @@ export default {
       } else {
         //开户
         axios({
-          url: Url.sendMessage,
+          url: URL.sendMessage,
           method: "post",
           params: {
             phoneNum: this.ruleForm.phoneNum
@@ -104,7 +105,7 @@ export default {
             this.ruleForm.phoneNum = "";
           } else {
             axios({
-              url: Url.loginByMessagePost,
+              url: URL.loginByMessagePost,
               method: "post",
               params: {
                 phone: this.ruleForm.phoneNum,
@@ -135,9 +136,6 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  },
-  components: {
-    Footer
   }
 };
 </script>

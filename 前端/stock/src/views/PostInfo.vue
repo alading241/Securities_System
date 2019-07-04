@@ -85,12 +85,12 @@
 import { Queue, Patient } from "./../assets/js/priority";
 import { mapState } from "vuex";
 import axios from "axios";
-import Url from "@/service.config.js";
+import URL from "@/service.config.js";
 export default {
   props: ["id", "name"],
   created() {
     axios({
-      url: Url.getForumInfo,
+      url: URL.getForumInfo,
       method: "get",
       params: {
         stockId: this.id
@@ -121,7 +121,7 @@ export default {
       });
 
     axios({
-      url: Url.getHotForumInfo,
+      url: URL.getHotForumInfo,
       method: "get",
       params: {
         stockId: this.id
@@ -135,7 +135,7 @@ export default {
         console.log(err);
       });
     axios({
-      url: Url.getOwnForumInfo,
+      url: URL.getOwnForumInfo,
       method: "get",
       params: {
         userName: this.phone

@@ -15,15 +15,20 @@
 import { setTimeout, setInterval } from "timers";
 import { mapState, mapMutations } from "vuex";
 import axios from "axios";
+import Url from "@/service.config.js";
 export default {
   computed: {
     ...mapState(["phone"])
   },
   created() {
-    let url = `http://www.xml626.cn:8081/selectOptionalStock?phone=${this.phone}`;
     setInterval(() => {
-      axios
-        .get(url)
+      axios({
+        url: Url.selectOptionalStock,
+        method: "get",
+        params: {
+          phone: this.phone
+        }
+      })
         .then(res => {
           this.selectStock = res.data;
         })

@@ -75,6 +75,7 @@ import Qutoe from "./../views/Qutoe";
 import PostInfo from "./../views/PostInfo";
 import PostHeader from "./../components/PostHeader";
 import axios from "axios";
+import Url from "@/service.config.js";
 export default {
   components: {
     PostHeader,
@@ -96,31 +97,28 @@ export default {
   },
   created() {
     this.stock_id = this.$route.params.id;
-    // console.log(this.stock_id);
-
-    let url1 = `http://www.xml626.cn:8081/getStockInfoByStockCode?stockCode=${
-      this.stock_id
-    }`;
-    // console.log(url1);
-    axios
-      .get(url1) //请求股票类型
+    //请求股票类型
+    axios({
+      url: Url.getStockInfoByStockCode,
+      method: "get",
+      params: {
+        stockCode: this.stock_id
+      }
+    })
       .then(res => {
         //     console.log(res.data.stock_name);
         this.stock_name = res.data.stock_name;
         this.stock_type = res.data.stock_type;
         //  console.log(this.stock_type);
-        let url2 = `https://bird.ioliu.cn/v2?url=http://hq.sinajs.cn/list=${
-          this.stock_type
-        }${this.stock_id}`;
+        let url2 = `https://bird.ioliu.cn/v2?url=http://hq.sinajs.cn/list=${this.stock_type}${this.stock_id}`;
         axios
           .post(url2)
           .then(res => {
-            var extract = res.data.split(",").slice(1, 10);   
+            var extract = res.data.split(",").slice(1, 10);
             this.stockInfo = extract;
           })
           .catch(err => {
             console.log(err);
-
           });
       })
       .catch(err => {

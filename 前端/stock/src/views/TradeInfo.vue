@@ -86,8 +86,9 @@
 </template>
 
 <script>
-import Axios from "axios";
+import axios from "axios";
 import { mapState } from "vuex";
+import Url from "@/service.config.js";
 export default {
   data() {
     return {
@@ -102,17 +103,27 @@ export default {
   created() {
     this.stock_id = this.$route.params.id;
     //查询股票名称
-    let stockNameUrl = `http://www.xml626.cn:8081/getStockName?stockCode=${this.stock_id}`;
-    Axios.get(stockNameUrl)
+    axios({
+      url: Url.getStockName,
+      method: "get",
+      params: {
+        stockCode: this.stock_id
+      }
+    })
       .then(res => {
         this.stock_name = res.data;
         console.log(this.stock_name);
       })
       .catch();
 
-    //挂单
-    let entryOrdersUrl = `http://www.xml626.cn:8081/queryResting?phone=${this.phone}`;
-    Axios.get(entryOrdersUrl)
+    //查询挂单
+    axios({
+      url: Url.queryResting,
+      method: "get",
+      params: {
+        phone: this.phone
+      }
+    })
       .then(res => {
         this.entryOrders = res.data.slice(0, res.data.length - 1);
         var localStock = this.entryOrders.map((item, index) => {
@@ -123,9 +134,14 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    //当日委托
-    let delegateUrl = `http://www.xml626.cn:8081/queryEntrust?phone=${this.phone}`;
-    Axios.get(delegateUrl)
+    //查询当日委托
+    axios({
+      url: Url.queryEntrust,
+      method: "get",
+      params: {
+        phone: this.phone
+      }
+    })
       .then(res => {
         this.delegate = res.data.slice(0, res.data.length - 1);
         console.log(this.delegate);
@@ -138,18 +154,27 @@ export default {
         console.log(err);
       });
     //当日成交
-    let priceTodayUrl = `http://www.xml626.cn:8081/queryPurchase?phone=${this.phone}`;
-    Axios.get(priceTodayUrl)
+    axios({
+      url: Url.queryPurchase,
+      method: "get",
+      params: {
+        phone: this.phone
+      }
+    })
       .then(res => {
         this.priceToday = res.data;
-        // console.log(this.priceToday);
       })
       .catch(err => {
         console.log(err);
       });
-    //持仓信息
-    let positionInformationUrl = `http://www.xml626.cn:8081/queryHoldShares?phone=${this.phone}`;
-    Axios.get(positionInformationUrl)
+    //查询持仓信息
+    axios({
+      url: Url.queryHoldShares,
+      method: "get",
+      params: {
+        phone: this.phone
+      }
+    })
       .then(res => {
         this.positionInformation = res.data;
         // console.log(this.positionInformation);
@@ -164,9 +189,13 @@ export default {
   methods: {
     //撤单
     revoke(entrust_id) {
-      console.log(entrust_id);
-      let revokeUrl = `http://www.xml626.cn:8081/cancellation?entrustId=${entrust_id}`;
-      Axios.get(revokeUrl)
+      axios({
+        url: Url.cancellation,
+        method: "get",
+        params: {
+          entrustId: entrust_id
+        }
+      })
         .then(res => {
           console.log(res);
           if (res.status == 200) {

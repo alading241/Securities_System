@@ -71,8 +71,7 @@
 import RegHeader from "../components/RegHeader";
 import Footer from "../components/Footer";
 import axios from "axios";
-import url from "@/service.config.js";
-
+import Url from "@/service.config.js";
 export default {
   name: "Reg",
 
@@ -131,16 +130,11 @@ export default {
             this.ruleForm.phoneNumber = "";
           } else {
             axios({
-              url:
-                "http://www.xml626.cn:8081/createUser?phone_number=" +
-                this.ruleForm.phoneNumber +
-                "&password=" +
-                this.ruleForm.password,
+              url: Url.createUser,
               method: "post",
-              data: {
-                phoneNumber: this.ruleForm.phoneNumber,
-                password: this.ruleForm.password,
-                checkPass: this.ruleForm.checkPass
+              params: {
+                phone_number: this.ruleForm.phoneNumber,
+                password: this.ruleForm.password
               }
             })
               .then(res => {

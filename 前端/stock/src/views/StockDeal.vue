@@ -110,7 +110,7 @@ import axios from "axios";
 import TradeInfo from "./TradeInfo";
 import PostHeader from "../components/PostHeader";
 import { mapState, mapMutations } from "vuex";
-
+import Url from "@/service.config.js";
 export default {
   inject: ["reload"],
   components: {
@@ -122,9 +122,14 @@ export default {
   },
   created() {
     this.localLogin(localStorage.phone);
-    let balanceUrl = `http://www.xml626.cn:8081/getAccountBalance?phone=${this.phone}`;
-    axios
-      .get(balanceUrl)
+    //获取账户余额
+    axios({
+      url: Url.getAccountBalance,
+      method: "get",
+      params: {
+        phone: this.phone
+      }
+    })
       .then(res => {
         this.userId = res.data.user_id;
         this.balance = res.data.account_balance;
@@ -135,9 +140,12 @@ export default {
 
     this.stock_id = this.$route.params.id;
     console.log(this.stock_id);
-    let url1 = `http://www.xml626.cn:8081/getStockInfoByStockCode?stockCode=${this.stock_id}`;
-    axios
-      .get(url1) //请求股票类型
+    //请求股票类型
+    axios({
+      url: Url.getStockInfoByStockCode,
+      method: "get",
+      stockCode: this.stock_id
+    })
       .then(res => {
         this.stock_type = res.data.stock_type;
         let url2 = `https://bird.ioliu.cn/v2?url=http://hq.sinajs.cn/list=${this.stock_type}${this.stock_id}`;
@@ -176,21 +184,24 @@ export default {
     ...mapMutations(["localLogin"]),
     //买入
     BuySubmit() {
-      console.log(this.stock_id);
-      console.log(this.nowPrice);
-      console.log(this.nowCount);
       let totalPrice = this.nowPrice * this.nowCount;
       if (totalPrice > this.balance) {
         alert("余额不足!");
       } else {
         this.balance = this.balance - totalPrice;
-        var restingOrderUrl = `http://www.xml626.cn:8081/restingOrder?userId=${this.userId}&stockId=${this.stock_id}&number=${this.nowCount}&price=${this.nowPrice}&type=buy`;
-        console.log(restingOrderUrl);
-        axios
-          .get(restingOrderUrl)
+        //挂单
+        axios({
+          url: Url.restingOrder,
+          method: "get",
+          params: {
+            userId: this.userId,
+            stockId: this.stock_id,
+            number: this.nowCount,
+            price: this.nowPrice,
+            type: "buy"
+          }
+        })
           .then(res => {
-            console.log(restingOrderUrl);
-            console.log(res);
             if (res.status == 200) {
               alert("挂单成功");
               // this.reload();

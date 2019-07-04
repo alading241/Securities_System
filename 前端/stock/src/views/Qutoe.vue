@@ -79,6 +79,7 @@
 <script type="text/javascript">
 import axios from "axios";
 import { mapState } from "vuex";
+import Url from "@/service.config.js";
 export default {
   computed: {
     ...mapState(["phone"])
@@ -94,19 +95,23 @@ export default {
   },
   created() {
     this.stock_id = this.$route.params.id;
-    let url1 = `http://www.xml626.cn:8081/getStockInfoByStockCode?stockCode=${this.stock_id}`;
-    axios
-      .get(url1) //请求股票类型
+    //请求股票类型
+    axios({
+      url: Url.getStockInfoByStockCode,
+      method: "get",
+      params: {
+        stockCode: this.stock_id
+      }
+    })
       .then(res => {
         this.stock_name = res.data.stock_name;
         this.stock_type = res.data.stock_type;
-        let url2 = `https://bird.ioliu.cn/v2?url=http://hq.sinajs.cn/list=${this.stock_type}${this.stock_id}`;
+        let url = `https://bird.ioliu.cn/v2?url=http://hq.sinajs.cn/list=${this.stock_type}${this.stock_id}`;
         axios
-          .post(url2)
+          .post(url)
           .then(res => {
             var extract = res.data.split(",").slice(1, 30);
             //昨日收盘价到卖四
-          //  console.log(extract);
             this.stockInfo = extract;
           })
           .catch(err => {

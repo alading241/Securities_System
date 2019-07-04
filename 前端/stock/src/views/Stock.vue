@@ -35,6 +35,7 @@
 </template>
 <script>
 import axios from "axios";
+import Url from "@/service.config.js";
 import { mapState } from "vuex";
 export default {
   inject: ["reload"],
@@ -47,9 +48,10 @@ export default {
     };
   },
   created() {
-    let url1 = "http://www.xml626.cn:8081/getInitialization";
-    axios
-      .get(url1)
+    axios({
+      url: Url.getInitialization,
+      method: "get"
+    })
       .then(res => {
         this.stock = res.data.reverse();
         let newArr = this.stock.map((item, index) => {
@@ -92,9 +94,9 @@ export default {
             this.stock[i].isClick = !this.stock[i].isClick;
             axios({
               //添加到自选股
-              url: `http://www.xml626.cn:8081/addOptionalStock?phone=${this.phone}&stock_name=${name}&stock_id=${id}`,
+              url: Url.addOptionalStock,
               method: "post",
-              data: {
+              params: {
                 phone: this.phone, //电话号码
                 stock_name: name, //股票id
                 stock_id: id //股票名字
@@ -112,13 +114,11 @@ export default {
             //取消自选股
           } else if (this.stock[i].isClick && this.stock[i].stock_id == id) {
             this.stock[i].isClick = !this.stock[i].isClick;
-            // this.$forceUpdate();
             axios({
-              url: `http://www.xml626.cn:8081/delOptionalStock?phone=${this.phone}&stock_id=${id}`,
+              url: Url.delOptionalStock,
               method: "post",
-              data: {
+              params: {
                 phone: this.phone, //电话号码
-                stock_name: name, //股票id
                 stock_id: id //股票名字
               }
             })
@@ -134,7 +134,6 @@ export default {
         localStorage.setItem("myStock", JSON.stringify(this.stock));
         this.showStock = JSON.parse(localStorage.getItem("myStock"));
         this.reload();
-       // this.$router.push("/");
       } else {
         alert("请先登录！");
       }
